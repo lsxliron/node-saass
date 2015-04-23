@@ -1,2 +1,4 @@
 #IGNORE TMP DIRECTORY
 public/tmp
+public/images/T2
+.DS_Store
