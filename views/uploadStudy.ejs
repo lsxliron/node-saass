@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<% include header %>
+	</head>
+	
+	<body ng-app="saass">
+	
+		<%= include navbar %>
+
+		<%= msg %>
+
+		<div>
+			{{ msgAng }}
+			<button ng-controller="TestCtrl" ng-click="ttest()">CLICK</button>
+		</div>
+
+		<div ng-controller="NodeTestCtrl">
+			<button ng-click="jsonTest()">NODE</button>
+			{{js}}
+		</div>
+		
+		
+		<div ng-controller="TestSVGCtrl">
+			<input type="file" id="fileSelector" onchange="angular.element(this).scope().parseFile()" multiple/>
+			<!-- <input type="submit" /> -->
+		</div>
+		</form>
+
+		<svg id="testSVG" ng-controller="TestSVGCtrl">
+			<g>
+				<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+			</g>
+
+		</svg>
+		
+		<div ng-controller="DicomDivCtrl" id="dd"></div>
+		<div ng-controller="ParseDicomCtrl"></div>
+		
+		
+
+
+
+	</body>
+</html>

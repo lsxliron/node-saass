@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<% include header %>
+	</head>
+	
+
+	<body ng-app="saass">
+		<%= include navbar %>
+
+		<!-- ADD FILES AND UPLOAD BUTTONS -->
+		<div class="container" ng-controller="UploadFilesCtrl">
+			<div id="fileUploadControls">
+				<file-selector></file-selector>
+				<button class="btn btn-success" ng-click="saveFilesToServer()">Upload</button>
+			</div>
+
+			<!-- <hr> -->
+			<!-- <progressbar id="filesUploadProgressBar" class="progress-striped active" value="dynamic" type="{{type}}">{{dynamic}}%</progressbar> -->
+
+			<progressbar id="filesUploadProgressBar" animate="false" value="dynamic" type="success"><b>{{dynamic}}%</b></progressbar>
+
+
+
+			<!-- FILES TABLE HEADERS -->
+			<div id="tableHeadersDiv">
+				<table class="table table-striped">
+					<tr>
+						<td class="tableHeader" style="width:90%">File Name</td>
+						<td class="tableHeader" style="width:10%">Status</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- FILES LIST -->
+			<div id="filesListDiv" class="verticalOverflowClassTable">
+				<table class="table table-striped">
+					<tr ng-repeat="file in filenames">
+						<td style="width:90%">{{file.name}}</td>
+
+						<td style="width:10%" ng-if="file.status==1">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</td>
+
+						<td style="width:10%" ng-if="file.status==0">
+							...
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- 
+		<div ng-controller="WebWorkerCtrl">
+			<button ng-click="test()">AAA</button>
+		</div> -->
+		
+
+
+
+	</body>
+</html>
