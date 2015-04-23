@@ -13,10 +13,11 @@
 			<div id="fileUploadControls">
 				<file-selector></file-selector>
 				<button class="btn btn-success" ng-click="saveFilesToServer()">Upload</button>
+				<button class="btn btn-success" ng-click="saveFilesToServerAsJson()">Upload JSON</button>
 			</div>
 
 
-			<progressbar id="filesUploadProgressBar" animate="false" value="dynamic" type="success"><b>{{dynamic}}%</b></progressbar>
+			<progressbar id="filesUploadProgressBar "class="progress-striped active" value="dynamic" type="{{type}}"> {{dynamic}}%</progressbar>
 
 
 

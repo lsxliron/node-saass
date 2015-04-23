@@ -43,6 +43,25 @@ router.post('/saveDicomAsSVG', function(req, res, next){
 });
 
 
+
+
+router.post('/saveDicomAsJSON', function(req, res, next){
+	// console.log(req.body.filename)
+	var data = req.body.data;
+	var filename = req.body.filename;
+	var dir = './public/tmp'
+
+	// //CREATE DIRECTORY IF NOT EXISTS
+	if (!fs.existsSync(dir))
+	    fs.mkdirSync(dir);
+
+	fs.writeFile('./public/tmp/' + filename + '.json', JSON.stringify(data), function(err){if (err) {return console.log(err.stack)}})
+	console.log("\n\n\nSAVED FILENAME:\t " + filename + " AS JSON\n\n\n")
+	res.send();
+
+});
+
+
 //CREATE STUDY OR SUB-STUDY TEMPLATE
 router.get('/createStudy', function(req, res, next){
 	res.render('createStudy');

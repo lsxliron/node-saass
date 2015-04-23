@@ -3,6 +3,7 @@ app = angular.module('testModule', []);
 
 app.controller('UploadFilesCtrl', ['$scope', '$http', function($scope, $http, workerService){
 		$scope.dynamic=0;
+		$scope.type="primary";
 		
 		
 		
@@ -88,6 +89,54 @@ app.controller('UploadFilesCtrl', ['$scope', '$http', function($scope, $http, wo
 
 			reader.readAsArrayBuffer($scope.files[filename]);
 		}
+
+
+	$scope.saveFilesToServerAsJson = function(){
+		var reader = new FileReader();
+		var pixels, rows, cols;
+		var filename = 0;
+			
+			
+		reader.onload = function(file){
+			//GET DICOM FILE DATA
+			var arrayBuffer = reader.result;
+			var byteArray = new Uint8Array(arrayBuffer);
+			var dataSet = dicomParser.parseDicom(byteArray);
+			
+			// EXTRACT RELEVANT DATA FROM THE DATASET
+			pixels = new Uint16Array(dataSet.byteArray.buffer, dataSet.elements.x7fe00010.dataOffset);
+			pixels = [].slice.call(pixels)
+			rows = dataSet.uint16('x00280010');
+			cols = dataSet.uint16('x00280011');
+		};
+
+
+		reader.onloadend=function(){
+			var dicomData = {
+				data: pixels,
+				cols: cols,
+				rows: rows
+			};
+					
+			$http.post('/saveDicomAsJSON', {data:dicomData, filename:(filename+1).toString()}).success(function(){
+						
+			// UPDATE PROGRESS BAR
+			$scope.dynamic = Math.floor((filename/($scope.files.length))*100)
+		});
+
+			// UPDATES GLYPH FOR FILE STATUS
+			$scope.filenames[filename]['status']=1;
+			filename += 1;
+					
+			// READ NEXT FILE IF EXISTS
+			if (filename<$scope.files.length){
+				reader.readAsArrayBuffer($scope.files[filename]);
+			}
+		}
+
+		reader.readAsArrayBuffer($scope.files[filename]);
+
+	}
 
 
 	// INSERT A RECORD OF A SUB- STUDY TO THE DATABASE.
