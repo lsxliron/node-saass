@@ -4,8 +4,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+
+
+//IMPORT MODELS
+require('./models/Substudy')
+
+//CONNECT TO DB
+mongoose.connect('mongodb://localhost/saass');
+
+//ROUTES
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
 
 var app = express();
 
@@ -22,8 +33,10 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // ADD BOWER COMPONENTS
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+
 
 app.use('/', routes);
 app.use('/users', users);
@@ -58,17 +71,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
-
-//auto reload
-// var app = require('express')();
-// app.set('port', process.env.PORT || 3000);
-// var server = app.listen(app.get('port'), function() {
-//   console.log('Express server listening on port ' + server.address().port);
-// });
-
-
-
-
 
 module.exports = app;
